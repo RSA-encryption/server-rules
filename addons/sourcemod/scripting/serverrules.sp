@@ -1,5 +1,4 @@
 #include <sourcemod>
-#include <helpers>
 #include <cstrike>
 
 public Plugin myinfo = 
@@ -7,7 +6,7 @@ public Plugin myinfo =
 	name = "Server Rules",
 	author = "stretch",
 	description = "Displays server rules to new clients when they join the server.",
-	version = "1.0",
+	version = "1.1",
 	url = "http://sourcemod.net/"
 };
 
