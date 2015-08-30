@@ -115,7 +115,7 @@ public int RulesMenuHandler(Menu rulesMenu, MenuAction action, int param1, int p
 		case MenuAction_Cancel:
 		{
 			// Menu reached timeout.
-			KickClient(param1, "You failed to agree to the server rules");
+			KickClient(param1, "You failed to agree to the server rules in time");
 			delete rulesMenu;
 		}
 	}
