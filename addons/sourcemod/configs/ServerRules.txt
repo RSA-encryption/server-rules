@@ -1,0 +1,6 @@
+SERVER RULES. PLEASE READ.
+--------------------------
+1. You can edit this file starting at this line
+2. With your custom ruleset
+3. It’s best to keep it under 10 rules
+4. So the menu doesn’t grow to be too large
