@@ -128,7 +128,7 @@ public void Event_PlayerSpawnInit(Event event, const char[] name, bool dontBroad
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	int clientTeam = GetClientTeam(client);
 
-	bool isClientAdmin = CheckCommandAccess(client, "sm_rules_target", ADMFLAG_KICK, true);
+	bool isClientAdmin = CheckCommandAccess(client, "sm_rules_target", ADMFLAG_GENERIC, true);
 
 	// Make sure the client is a real client, actually on a team, and not an admin/mod.
 	if (!g_players[client] && !IsFakeClient(client) && clientTeam != CS_TEAM_NONE && !isClientAdmin) 
@@ -146,7 +146,7 @@ public Action ShowRulesOnJoin(Handle timer, int userId)
 	char clientName[32];
 	GetClientName(client, clientName, 32);
 
-	bool isClientAdmin = CheckCommandAccess(client, "sm_rules_target", ADMFLAG_KICK, true);
+	bool isClientAdmin = CheckCommandAccess(client, "sm_rules_target", ADMFLAG_GENERIC, true);
 
 	// Recheck that the client is a real client, still on a team, and not an admin/mod.
 	if (!g_players[client] && !IsFakeClient(client) && clientTeam != CS_TEAM_NONE && !isClientAdmin) 
