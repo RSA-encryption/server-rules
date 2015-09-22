@@ -13,12 +13,16 @@ public Plugin myinfo =
 // Global Connected Client List
 bool g_players[MAXPLAYERS+1];
 
+ConVar cvar_ShowRulesOnJoin;
+
 public void OnPluginStart()
 {
 	// Get Plugin Version, and report successful load to console.
 	char version[32];
 	GetPluginInfo(INVALID_HANDLE, PlInfo_Version, version, sizeof(version));
 	PrintToServer("[SERVER RULES]: Version %s loaded.", version);
+
+	cvar_ShowRulesOnJoin = CreateConVar("sm_rules_onjoin", "1", "Show server rules to connecting clients when they join a team.", 0, true, 0.0, true, 1.0);
 
 	HookEvent("player_spawn", Event_PlayerSpawnInit, EventHookMode_Post);
 
@@ -124,17 +128,20 @@ public int RulesMenuHandler(Menu rulesMenu, MenuAction action, int param1, int p
 
 public void Event_PlayerSpawnInit(Event event, const char[] name, bool dontBroadcast)
 {
-	// Get spawned client info.
-	int client = GetClientOfUserId(event.GetInt("userid"));
-	int clientTeam = GetClientTeam(client);
-
-	bool isClientAdmin = CheckCommandAccess(client, "sm_rules_target", ADMFLAG_GENERIC, true);
-
-	// Make sure the client is a real client, actually on a team, and not an admin/mod.
-	if (!g_players[client] && !IsFakeClient(client) && clientTeam != CS_TEAM_NONE && !isClientAdmin) 
+	if(cvar_ShowRulesOnJoin.BoolValue)
 	{
-		// Timer solved an issue where replay bots were being kicked, causing a loop of respawning bots.
-		CreateTimer(2.0, ShowRulesOnJoin, event.GetInt("userid"));
+		// Get spawned client info.
+		int client = GetClientOfUserId(event.GetInt("userid"));
+		int clientTeam = GetClientTeam(client);
+
+		bool isClientAdmin = CheckCommandAccess(client, "sm_rules_target", ADMFLAG_GENERIC, true);
+
+		// Make sure the client is a real client, actually on a team, and not an admin/mod.
+		if (!g_players[client] && !IsFakeClient(client) && clientTeam != CS_TEAM_NONE && !isClientAdmin) 
+		{
+			// Timer solved an issue where replay bots were being kicked, causing a loop of respawning bots.
+			CreateTimer(2.0, ShowRulesOnJoin, event.GetInt("userid"));
+		}
 	}
 }
 
